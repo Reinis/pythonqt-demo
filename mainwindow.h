@@ -1,3 +1,7 @@
+#include "PythonQt/PythonQt.h"
+#include "PythonQt/PythonQt_QtAll.h"
+#include "PythonQt/gui/PythonQtScriptingConsole.h"
+
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QtWidgets>
 #include <QtWidgets/QMainWindow>
@@ -33,6 +37,6 @@ private:
   QAction* runPyAct;
   QAction* exitAct;
   QList<QAction*> pluginActList;
-  QPlainTextEdit* textEdit;
+  PythonQtScriptingConsole* pyConsole;
 };
 

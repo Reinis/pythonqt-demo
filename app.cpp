@@ -8,8 +8,13 @@
 
 MainWindow::MainWindow()
 {
-  textEdit = new QPlainTextEdit;
-  setCentralWidget(textEdit);
+  PythonQt::init(PythonQt::IgnoreSiteModule | PythonQt::RedirectStdOut);
+  PythonQt_QtAll::init();
+
+  PythonQtObjectPtr  mainContext = PythonQt::self()->getMainModule();
+
+  pyConsole = new PythonQtScriptingConsole(this, mainContext);
+  setCentralWidget(pyConsole);
 
   createActions();
   createMenus();
@@ -29,6 +34,14 @@ MainWindow::~MainWindow()
 void MainWindow::runPyScript(const QString& fileName)
 {
   qDebug() << "Running script" << fileName;
+
+  //PythonQt::init(PythonQt::IgnoreSiteModule);
+  //PythonQt_QtAll::init();
+
+  PythonQtObjectPtr  mainContext = PythonQt::self()->getMainModule();
+
+  QDir directory("plugins");
+  mainContext.evalFile(directory.filePath(fileName));
 }
 
 
@@ -43,6 +56,11 @@ void MainWindow::updateWindowTitle()
 void MainWindow::createActions()
 {
   QDir pluginDir("plugins");
+
+  QStringList filters;
+  filters << "*.py";
+  pluginDir.setNameFilters(filters);
+
   QStringList filesList = pluginDir.entryList(QDir::NoDotAndDotDot | QDir::Files);
 
   foreach(QString filename, filesList) {

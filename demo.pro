@@ -1,6 +1,10 @@
 TEMPLATE = app
 TARGET = demo
+INCLUDEPATH += /usr/include/python3.4m
+INCLUDEPATH += /usr/include/PythonQt
 INCLUDEPATH += .
+
+LIBS += -lPythonQt -lPythonQt_QtAll
 
 HEADERS += mainwindow.h
 
